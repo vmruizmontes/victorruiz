@@ -18,13 +18,13 @@ USE `webtorneos`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `juegos`
+-- Table structure for table `juego`
 --
 
-DROP TABLE IF EXISTS `juegos`;
+DROP TABLE IF EXISTS `juego`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `juegos` (
+CREATE TABLE `juego` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `tipojuegos` int(11) NOT NULL,
@@ -32,18 +32,18 @@ CREATE TABLE `juegos` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
   KEY `FK_juegos_tipojuegos_idx` (`tipojuegos`),
-  CONSTRAINT `FK_juegos_tipojuegos` FOREIGN KEY (`tipojuegos`) REFERENCES `tipojuegos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_juegos_tipojuegos` FOREIGN KEY (`tipojuegos`) REFERENCES `tipojuego` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `juegos`
+-- Dumping data for table `juego`
 --
 
-LOCK TABLES `juegos` WRITE;
-/*!40000 ALTER TABLE `juegos` DISABLE KEYS */;
-INSERT INTO `juegos` VALUES (1,'xwingliga10',1),(2,'bbsuizo32',3),(3,'bbliga10',1);
-/*!40000 ALTER TABLE `juegos` ENABLE KEYS */;
+LOCK TABLES `juego` WRITE;
+/*!40000 ALTER TABLE `juego` DISABLE KEYS */;
+INSERT INTO `juego` VALUES (1,'xwingliga10',1),(2,'bbsuizo32',3),(3,'bbliga10',1),(4,'prueba32',3),(5,'juegonuevo',2),(6,'colchon',3),(7,'jueguecito',2),(8,'nuevo jueguecito',1),(9,'tratra',2),(13,'victor',3),(14,'jueguecitonuevo',3),(15,'new new',2),(16,'torneazo',2),(25,'ultimo juego',3);
+/*!40000 ALTER TABLE `juego` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -57,12 +57,14 @@ CREATE TABLE `jugadores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombreusuario` varchar(45) NOT NULL,
   `nombrejuego` varchar(45) NOT NULL,
+  `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `fecha_UNIQUE` (`fecha`),
   KEY `FK_jugadores_usuarios_idx` (`nombreusuario`),
   KEY `FK_jugadores_juegos_idx` (`nombrejuego`),
-  CONSTRAINT `FK_jugadores_juegos` FOREIGN KEY (`nombrejuego`) REFERENCES `juegos` (`nombre`),
-  CONSTRAINT `FK_jugadores_usuarios` FOREIGN KEY (`nombreusuario`) REFERENCES `usuarios` (`nombre`)
+  CONSTRAINT `FK_jugadores_juegos` FOREIGN KEY (`nombrejuego`) REFERENCES `juego` (`nombre`),
+  CONSTRAINT `FK_jugadores_usuarios` FOREIGN KEY (`nombreusuario`) REFERENCES `usuario` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,18 +74,17 @@ CREATE TABLE `jugadores` (
 
 LOCK TABLES `jugadores` WRITE;
 /*!40000 ALTER TABLE `jugadores` DISABLE KEYS */;
-INSERT INTO `jugadores` VALUES (1,'victor','bbliga10'),(3,'pedro','bbliga10'),(4,'pedro','xwingliga10');
 /*!40000 ALTER TABLE `jugadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tipojuegos`
+-- Table structure for table `tipojuego`
 --
 
-DROP TABLE IF EXISTS `tipojuegos`;
+DROP TABLE IF EXISTS `tipojuego`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `tipojuegos` (
+CREATE TABLE `tipojuego` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `numerojugadores` int(11) NOT NULL,
@@ -94,13 +95,13 @@ CREATE TABLE `tipojuegos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tipojuegos`
+-- Dumping data for table `tipojuego`
 --
 
-LOCK TABLES `tipojuegos` WRITE;
-/*!40000 ALTER TABLE `tipojuegos` DISABLE KEYS */;
-INSERT INTO `tipojuegos` VALUES (1,'liga10',10),(2,'suizo16',16),(3,'suizo32',32);
-/*!40000 ALTER TABLE `tipojuegos` ENABLE KEYS */;
+LOCK TABLES `tipojuego` WRITE;
+/*!40000 ALTER TABLE `tipojuego` DISABLE KEYS */;
+INSERT INTO `tipojuego` VALUES (1,'liga10',10),(2,'suizo16',16),(3,'suizo32',32);
+/*!40000 ALTER TABLE `tipojuego` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -141,14 +142,17 @@ CREATE TABLE `torneos` (
   `nombre` varchar(45) NOT NULL,
   `fecha` datetime NOT NULL,
   `juego` int(11) NOT NULL,
-  `ganador` int(11) NOT NULL,
+  `ganador` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
   KEY `FK_torneos_juegos_idx` (`juego`),
   KEY `FK_torneos_usuarios_idx` (`ganador`),
-  CONSTRAINT `FK_torneos_juegos` FOREIGN KEY (`juego`) REFERENCES `juegos` (`id`),
-  CONSTRAINT `FK_torneos_usuarios` FOREIGN KEY (`ganador`) REFERENCES `usuarios` (`id`)
+  KEY `FK_torneos_jugadores_idx` (`fecha`),
+  KEY `FK_idx` (`fecha`),
+  CONSTRAINT `FK` FOREIGN KEY (`fecha`) REFERENCES `jugadores` (`fecha`),
+  CONSTRAINT `FK_torneos_juegos` FOREIGN KEY (`juego`) REFERENCES `juego` (`id`),
+  CONSTRAINT `FK_torneos_usuarios` FOREIGN KEY (`ganador`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -158,18 +162,17 @@ CREATE TABLE `torneos` (
 
 LOCK TABLES `torneos` WRITE;
 /*!40000 ALTER TABLE `torneos` DISABLE KEYS */;
-INSERT INTO `torneos` VALUES (1,'bb1','2018-10-10 09:00:00',2,2),(2,'xwing1','2018-12-12 09:00:00',1,3);
 /*!40000 ALTER TABLE `torneos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `usuario`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `usuarios` (
+CREATE TABLE `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `pass` varchar(45) NOT NULL,
@@ -182,17 +185,17 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK_usuarios_tiposusuario_idx` (`tipousuarioid`),
   CONSTRAINT `FK_usuarios_tiposusuario` FOREIGN KEY (`tipousuarioid`) REFERENCES `tiposusuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `usuario`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (2,'Victor','1234','2018-12-12 12:12:12','victor@victor.com',1),(3,'Pedro','1111','2018-01-01 01:01:01','pedro@pedro.com',2);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'admin','admin','2018-11-12 00:00:00','victorv@victor.com',1),(2,'user','user','2020-12-12 00:00:00','pedro2@pedro.com',2);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -204,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-12 19:43:16
+-- Dump completed on 2018-12-19 16:12:27
