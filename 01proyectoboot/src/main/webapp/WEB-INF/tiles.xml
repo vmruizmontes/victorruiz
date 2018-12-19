@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE tiles-definitions PUBLIC       
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"       
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/tiles/layout.jsp">
+		<put-attribute name="header" value="/tiles/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/tiles/footer.jsp" />
+	</definition>
+	<definition name="form" extends="baseLayout">
+		<put-attribute name="body" value="/form.jsp" />
+	</definition>
+	<definition name="inicio" extends="baseLayout">
+		<put-attribute name="body" value="/inicio.jsp" />
+	</definition>
+	<definition name="resultado" extends="baseLayout">
+		<put-attribute name="body" value="/resultado.jsp" />
+	</definition>
+	<definition name="error" extends="baseLayout">
+		<put-attribute name="body" value="/error.jsp" />
+	</definition>
+	<definition name="formregistrar" extends="baseLayout">
+		<put-attribute name="body" value="/formregistrar.jsp" />
+	</definition>
+
+	<definition name="admin/form" extends="baseLayout">
+		<put-attribute name="body" value="/admin/form.jsp" />
+	</definition>
+	<definition name="admin/home" extends="baseLayout">
+		<put-attribute name="body" value="/admin/home.jsp" />
+	</definition>
+	<definition name="game/form" extends="baseLayout">
+		<put-attribute name="body" value="/game/form.jsp" />
+	</definition>
+
+	<definition name="user/form" extends="baseLayout">
+		<put-attribute name="body" value="/user/form.jsp" />
+	</definition>
+	<definition name="user/home" extends="baseLayout">
+		<put-attribute name="body" value="/user/home.jsp" />
+	</definition>
+	<definition name="user/list" extends="baseLayout">
+		<put-attribute name="body" value="/user/list.jsp" />
+	</definition>
+	<definition name="user/update" extends="baseLayout">
+		<put-attribute name="body" value="/user/update.jsp" />
+	</definition>
+	
+	<definition name="index" extends="baseLayout">
+		<put-attribute name="body" value="/index.jsp" />
+	</definition>
+	<definition name="index2" extends="baseLayout">
+		<put-attribute name="body" value="/index2.jsp" />
+	</definition>
+	
+		<definition name="user/inscribir" extends="baseLayout">
+		<put-attribute name="body" value="/user/inscribir.jsp" />
+	</definition>
+	
+
+
+</tiles-definitions>
